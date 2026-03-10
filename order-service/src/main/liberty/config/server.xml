@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Order Service">
+    <featureManager>
+			<feature>microProfile-4.0</feature>
+    </featureManager>
+    <httpEndpoint id="defaultHttpEndpoint" host="*" httpPort="9080" httpsPort="9443"/>
+    <webApplication location="order-service.war" contextRoot="/api"/>
+    <mpMetrics authentication="false"/>
+</server>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<server description="Product Service Server">
+
+    <featureManager>
+		<feature>microProfile-4.0</feature>
+    </featureManager>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  host="*"
+                  httpPort="9080"
+                  httpsPort="9443" />
+
+    <webApplication location="product-service.war" contextRoot="/api" />
+
+    <mpMetrics authentication="false"/>
+
+    <variable name="default.http.port" defaultValue="9080"/>
+    <variable name="default.https.port" defaultValue="9443"/>
+</server>
