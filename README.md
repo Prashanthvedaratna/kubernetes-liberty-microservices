@@ -7,8 +7,7 @@ A complete end-to-end project demonstrating deployment of **IBM WebSphere Libert
 
 ## 🏗️ Architecture
 
-![Architecture Diagram](architecture.png)
-
+<img src="architecture.png" width="900">
 ## 🛠️ Technologies
 
 - **Java 11** + **MicroProfile 4.0**
