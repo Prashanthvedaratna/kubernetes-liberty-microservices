@@ -9,13 +9,15 @@ pipeline {
         stage('Build and Push Product Service') {
             steps {
                 script {
+                    // Build with Maven inside product-service
                     dir('product-service') {
                         sh 'mvn clean package'
-                        docker.withRegistry('', 'docker-hub') {
-                            def image = docker.build("${DOCKER_HUB_REPO}/product-service:${env.BUILD_NUMBER}")
-                            image.push()
-                            image.push('latest')
-                        }
+                    }
+                    // Build Docker image from project root
+                    docker.withRegistry('', 'docker-hub') {
+                        def image = docker.build("${DOCKER_HUB_REPO}/product-service:${env.BUILD_NUMBER}", "-f product-service/Dockerfile .")
+                        image.push()
+                        image.push('latest')
                     }
                 }
             }
@@ -26,11 +28,11 @@ pipeline {
                 script {
                     dir('order-service') {
                         sh 'mvn clean package'
-                        docker.withRegistry('', 'docker-hub') {
-                            def image = docker.build("${DOCKER_HUB_REPO}/order-service:${env.BUILD_NUMBER}")
-                            image.push()
-                            image.push('latest')
-                        }
+                    }
+                    docker.withRegistry('', 'docker-hub') {
+                        def image = docker.build("${DOCKER_HUB_REPO}/order-service:${env.BUILD_NUMBER}", "-f order-service/Dockerfile .")
+                        image.push()
+                        image.push('latest')
                     }
                 }
             }
@@ -41,11 +43,11 @@ pipeline {
                 script {
                     dir('user-service') {
                         sh 'mvn clean package'
-                        docker.withRegistry('', 'docker-hub') {
-                            def image = docker.build("${DOCKER_HUB_REPO}/user-service:${env.BUILD_NUMBER}")
-                            image.push()
-                            image.push('latest')
-                        }
+                    }
+                    docker.withRegistry('', 'docker-hub') {
+                        def image = docker.build("${DOCKER_HUB_REPO}/user-service:${env.BUILD_NUMBER}", "-f user-service/Dockerfile .")
+                        image.push()
+                        image.push('latest')
                     }
                 }
             }
