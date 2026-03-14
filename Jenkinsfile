@@ -1,15 +1,11 @@
-cat > Jenkinsfile << 'EOF'
 pipeline {
     agent any
+
     environment {
         DOCKER_HUB_REPO = 'prashanthvedarathna'
     }
+
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
         stage('Build and Push Product Service') {
             steps {
                 script {
@@ -24,6 +20,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build and Push Order Service') {
             steps {
                 script {
@@ -38,6 +35,7 @@ pipeline {
                 }
             }
         }
+
         stage('Build and Push User Service') {
             steps {
                 script {
@@ -52,6 +50,7 @@ pipeline {
                 }
             }
         }
+
         stage('Deploy to Kubernetes') {
             steps {
                 script {
@@ -69,5 +68,16 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'All stages succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed. Check the logs.'
+        }
+    }
 }
-EOF
