@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_REPO = 'prashanthvedarathna'
+        KUBECONFIG       = '/var/jenkins_home/.kube/config'   // <-- added this line
     }
 
     stages {
@@ -53,18 +54,14 @@ pipeline {
 
         stage('Deploy to Kubernetes') {
             steps {
-                script {
-                    withKubeConfig([credentialsId: 'kubeconfig-text']) {
-                        sh """
-                            kubectl set image deployment/product-service product-service=${DOCKER_HUB_REPO}/product-service:${env.BUILD_NUMBER}
-                            kubectl set image deployment/order-service order-service=${DOCKER_HUB_REPO}/order-service:${env.BUILD_NUMBER}
-                            kubectl set image deployment/user-service user-service=${DOCKER_HUB_REPO}/user-service:${env.BUILD_NUMBER}
-                            kubectl rollout status deployment/product-service
-                            kubectl rollout status deployment/order-service
-                            kubectl rollout status deployment/user-service
-                        """
-                    }
-                }
+                sh """
+                    kubectl set image deployment/product-service product-service=${DOCKER_HUB_REPO}/product-service:${env.BUILD_NUMBER}
+                    kubectl set image deployment/order-service order-service=${DOCKER_HUB_REPO}/order-service:${env.BUILD_NUMBER}
+                    kubectl set image deployment/user-service user-service=${DOCKER_HUB_REPO}/user-service:${env.BUILD_NUMBER}
+                    kubectl rollout status deployment/product-service
+                    kubectl rollout status deployment/order-service
+                    kubectl rollout status deployment/user-service
+                """
             }
         }
     }
