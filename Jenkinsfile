@@ -9,11 +9,9 @@ pipeline {
         stage('Build and Push Product Service') {
             steps {
                 script {
-                    // Build with Maven inside product-service
                     dir('product-service') {
                         sh 'mvn clean package'
                     }
-                    // Build Docker image from project root
                     docker.withRegistry('', 'docker-hub') {
                         def image = docker.build("${DOCKER_HUB_REPO}/product-service:${env.BUILD_NUMBER}", "-f product-service/Dockerfile .")
                         image.push()
