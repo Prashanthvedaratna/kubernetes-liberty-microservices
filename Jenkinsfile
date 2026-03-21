@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_REPO = 'prashanthvedarathna'
-        KUBECONFIG       = '/var/jenkins_home/.kube/config'   // <-- added this line
+        KUBECONFIG = '/var/jenkins_home/kubeconfig'
     }
 
     stages {
